@@ -1,0 +1,26 @@
+# Blender MTL File: 'None'
+# Material Count: 2
+
+newmtl sponza_03SG
+Ns 29.411765
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.900000 0.900000 0.900000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+map_Kd sponza\background.bmp
+map_Bump sponza\\background_ddn.bmp -bm 0.02
+
+newmtl sponza_377SG
+Ns 29.411765
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.900000 0.900000 0.900000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+map_Kd sponza\lion.bmp
+map_Bump sponza\\lion_ddn.bmp -bm 0.02

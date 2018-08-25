@@ -1,0 +1,281 @@
+# Blender MTL File: 'None'
+# Material Count: 24
+
+newmtl sponza_00SG
+Ns 3.921569
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.360000 0.360000 0.360000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+map_Kd sponza\sponza_thorn_diff.bmp
+map_d sponza\sponza_thorn_mask.bmp
+map_Bump sponza\\sponza_thorn_ddn.bmp -bm 0.02
+
+newmtl sponza_01SG
+Ns 3.921569
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.180000 0.180000 0.180000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+map_Kd sponza\vase_plant.bmp
+map_d sponza\vase_plant_mask.bmp
+
+newmtl sponza_01SG1
+Ns 29.411765
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.900000 0.900000 0.900000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+map_Kd sponza\vase_round.bmp
+map_Bump sponza\\vase_round_ddn.bmp -bm 0.02
+
+newmtl sponza_03SG
+Ns 29.411765
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.900000 0.900000 0.900000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+map_Kd sponza\background.bmp
+map_Bump sponza\\background_ddn.bmp -bm 0.02
+
+newmtl sponza_05SG
+Ns 29.411765
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.900000 0.900000 0.900000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+map_Kd sponza\spnza_bricks_a_diff.bmp
+map_Bump sponza\\spnza_bricks_a_ddn.bmp -bm 0.02
+
+newmtl sponza_07SG
+Ns 11.764706
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.300000 0.300000 0.300000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+#map_Kd sponza\sponza_arch_diff.bmp
+map_Kd sponza\spnza_bricks_a_diff.bmp
+map_Bump sponza\\sponza_arch_ddn.bmp -bm 0.02
+
+newmtl sponza_08SG
+Ns 29.411765
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.900000 0.900000 0.900000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+map_Kd sponza\sponza_ceiling_a_diff.bmp
+
+newmtl sponza_09SG
+Ns 11.764706
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.300000 0.300000 0.300000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+map_Kd sponza\sponza_column_a_diff.bmp
+map_Bump sponza\\sponza_column_a_ddn.bmp -bm 0.02
+
+newmtl sponza_125SG
+Ns 11.764706
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.300000 0.300000 0.300000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+map_Kd sponza\sponza_column_b_diff.bmp
+map_Bump sponza\\sponza_column_b_ddn.bmp -bm 0.02
+
+newmtl sponza_18SG
+Ns 5.882353
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.330000 0.330000 0.330000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+map_Kd sponza\sponza_floor_a_diff.bmp
+
+newmtl sponza_22SG
+Ns 11.764706
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.300000 0.300000 0.300000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+map_Kd sponza\sponza_column_c_diff.bmp
+map_Bump sponza\\sponza_column_c_ddn.bmp -bm 0.02
+
+newmtl sponza_259SG
+Ns 11.764706
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.680000 0.680000 0.680000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+map_Kd sponza\sponza_flagpole_diff.bmp
+
+newmtl sponza_282SG
+Ns 1.960784
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.850000 0.850000 0.850000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+map_Kd sponza\sponza_fabric_green_diff.bmp
+
+newmtl sponza_283SG
+Ns 1.960784
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.850000 0.850000 0.850000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+map_Kd sponza\sponza_fabric_blue_diff.bmp
+
+newmtl sponza_284SG
+Ns 1.960784
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.850000 0.850000 0.850000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+map_Kd sponza\sponza_fabric_diff.bmp
+
+newmtl sponza_320SG
+Ns 1.960784
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.850000 0.850000 0.850000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+map_Kd sponza\sponza_curtain_blue_diff.bmp
+
+newmtl sponza_321SG
+Ns 1.960784
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.850000 0.850000 0.850000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+map_Kd sponza\sponza_curtain_diff.bmp
+
+newmtl sponza_322SG
+Ns 1.960784
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.850000 0.850000 0.850000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+map_Kd sponza\sponza_curtain_green_diff.bmp
+
+newmtl sponza_330SG
+Ns 13.725490
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.720000 0.720000 0.720000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+map_Kd sponza\chain_texture.bmp
+map_d sponza\chain_texture_mask.bmp
+map_Bump sponza\\chain_texture_ddn.bmp -bm 0.02
+
+newmtl sponza_334SG
+Ns 13.725490
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.720000 0.720000 0.720000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+map_Kd sponza\vase_hanging.bmp
+
+newmtl sponza_373SG
+Ns 29.411765
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.900000 0.900000 0.900000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+map_Kd sponza\vase_dif.bmp
+map_Bump sponza\\vase_ddn.bmp -bm 0.02
+
+newmtl sponza_377SG
+Ns 29.411765
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.900000 0.900000 0.900000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+map_Kd sponza\lion.bmp
+map_Bump sponza\\lion_ddn.bmp -bm 0.02
+
+newmtl sponza_380SG
+Ns 11.764706
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.300000 0.300000 0.300000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd sponza\sponza_roof_diff.bmp
+
+newmtl sponza_70SG
+Ns 13.725490
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.300000 0.300000 0.300000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+map_Kd sponza\sponza_details_diff.bmp

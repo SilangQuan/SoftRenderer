@@ -1,0 +1,13 @@
+# Blender MTL File: 'None'
+# Material Count: 1
+
+newmtl sponza_18SG
+Ns 5.882353
+Ka 0.590000 0.590000 0.590000
+Kd 0.500000 0.500000 0.500000
+Ks 0.330000 0.330000 0.330000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 6
+map_Kd sponza\sponza_floor_a_diff.bmp
