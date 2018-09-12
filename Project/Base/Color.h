@@ -43,6 +43,7 @@ public:
 	Color &operator+=(const Color &v);
 	Color &operator-=(const Color &v);
 	Color &operator*=(float num);
+	Color &operator*=(const Color &v);
 	friend Color operator * (const Color& lhs, double rhs);
 	friend Color operator * (double lhs, const Color& rhs);
 	friend Color operator + (const Color& lhs, const Color& rhs);

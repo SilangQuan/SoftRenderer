@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "Shape/Line2d.h"
 #include "Rasterizer.h"
 #include "Base/Vertex.h"
@@ -513,7 +512,6 @@ void Rasterizer::RasterizeTriangleLarabee3(VSOutput *pVSOutput0, VSOutput *pVSOu
 	Vector2i P;
 	Color col;
 
-	//float area = edgeFunction(vertexs[0].position, vertexs[1].position, vertexs[2].position); 
 	bool isInline = false;
     for (P.x=bboxmin.x; P.x<=bboxmax.x; P.x++) {
         for (P.y=bboxmin.y; P.y<=bboxmax.y; P.y++) 
@@ -530,10 +528,6 @@ void Rasterizer::RasterizeTriangleLarabee3(VSOutput *pVSOutput0, VSOutput *pVSOu
 			float threshold = -0.000001;
             if (barycentricCoord.x<threshold || barycentricCoord.y<threshold || barycentricCoord.z<threshold ) continue;
 
-			float w = (barycentricCoord.x * pVSOutput0->position.w, barycentricCoord.y*pVSOutput1->position.w, barycentricCoord.z * pVSOutput2->position.w) ;
-
-			//float depth = (barycentricCoord.x * pVSOutput0->position.z, barycentricCoord.y*pVSOutput1->position.z, barycentricCoord.z * pVSOutput2->position.z);
-            
 			if(mRenderContext->depthBuffer[P.x + P.y * mRenderContext->width] < depth)
 				continue;
 

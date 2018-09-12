@@ -109,6 +109,26 @@ class VertexColorShader : public IShader
     }
 };
 
+class VertexColorTextureShader : public IShader 
+{
+   virtual Vector4 vertex(int bufferIndex,int triangleIndex, VSOutput* vsOutput) 
+    {
+        Vector4 tmp;
+        tmp.x = RenderMesh->Vertices[bufferIndex].x;
+        tmp.y = RenderMesh->Vertices[bufferIndex].y;
+        tmp.z = RenderMesh->Vertices[bufferIndex].z;
+        tmp.w = 1;
+        return *PVMMatrix * tmp; // tOransform it to screen coordinates
+    }
+
+    virtual bool fragment(const Vector3& barycentric,Color &color) 
+    {
+        color = (Color)(TextureUnit0->Sample(FragmentInUV->x,FragmentInUV->y));
+        color *= *FragmentInColor;
+        return false;      
+    }                        
+};
+
 class SimpleTextureShader : public IShader 
 {
    virtual Vector4 vertex(int bufferIndex,int triangleIndex, VSOutput* vsOutput) 
@@ -136,7 +156,8 @@ class SimpleTextureShader : public IShader
 };
 
 
-class GouraudShader : public IShader {
+class GouraudShader : public IShader 
+{
 
     public:
     GouraudShader()
