@@ -226,9 +226,8 @@ void RenderSystem::Rasterization(TrianglePrimitive &triangle, Material *mat)
 	}
 }
 
-void RenderSystem::RenderMesh(Mesh *mesh, Matrix4x4 *modelMatrix, Material *mat)
+void RenderSystem::RenderMesh(Mesh *mesh, Matrix4x4 *modelMatrix, Material *mat, bool wireframeDebug)
 {
-
 	PROFILE_BEGIN(ShaderUniformSetting);
 
 	Matrix4x4 MVP = mCurCamera->projectionMaxtrix * mCurCamera->viewMatrix * (*modelMatrix);
@@ -345,12 +344,12 @@ void RenderSystem::RenderMesh(Mesh *mesh, Matrix4x4 *modelMatrix, Material *mat)
 
 		for (iVertex = 1; iVertex < iNumVertices - 1; ++iVertex)
 		{
-			RasterizeTriangle(ppSrc[0], ppSrc[iVertex], ppSrc[iVertex + 1], mat->Shader);
+			RasterizeTriangle(ppSrc[0], ppSrc[iVertex], ppSrc[iVertex + 1], mat->Shader, wireframeDebug);
 		}
 	}
 }
 
-void RenderSystem::RasterizeTriangle(VSOutput *pVSOutput0, VSOutput *pVSOutput1, VSOutput *pVSOutput2, IShader *shader)
+void RenderSystem::RasterizeTriangle(VSOutput *pVSOutput0, VSOutput *pVSOutput1, VSOutput *pVSOutput2, IShader *shader, bool wireframeDebug)
 {
 	if (mRenderStates[RenderState_Fillmode] == ShadedMode)
 	{
@@ -362,7 +361,7 @@ void RenderSystem::RasterizeTriangle(VSOutput *pVSOutput0, VSOutput *pVSOutput1,
 		#endif
 
 		//Debug code
-		/*
+		if(wireframeDebug)
 		{
 			Line2d line;
 			line.start = Vector2(pVSOutput0->position.x, pVSOutput0->position.y );
@@ -376,7 +375,7 @@ void RenderSystem::RasterizeTriangle(VSOutput *pVSOutput0, VSOutput *pVSOutput1,
 			line.start = Vector2(pVSOutput2->position.x, pVSOutput2->position.y);
 			line.end = Vector2(pVSOutput0->position.x, pVSOutput0->position.y);
 			mRasterizer->DrawOneLineInvY(&line, Color::white);
-		}*/
+		}
 	}
 	else if (mRenderStates[RenderState_Fillmode] == DepthMode)
 	{

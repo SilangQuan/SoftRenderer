@@ -38,7 +38,7 @@ class RenderSystem
         RenderSystem(InitDesc& initDesc);
         ~RenderSystem();
 
-        void RenderMesh(Mesh* mesh, Matrix4x4* modelMatrix, Material* mat);
+        void RenderMesh(Mesh* mesh, Matrix4x4* modelMatrix, Material* mat, bool wireframeDebug = false);
         void ClipTriangle(Mesh* mesh,Matrix4x4* modelMatrix, Material* mat,int triangleIndex, float zNear, float zFar );
         int ClipEncode(Vector4& clipPos);
         void Rasterization(TrianglePrimitive& triangle, Material* mat);
@@ -57,7 +57,7 @@ class RenderSystem
         void InterpolateVertex( VSOutput *o_pVSOutput, const VSOutput *i_pVSOutputA, const VSOutput *i_pVSOutputB, float i_fInterpolation );
         void ViewportTransformVertex( VSOutput *io_pVSOutput);
         bool CullTriangle( const VSOutput *i_pVSOutput0, const VSOutput *i_pVSOutput1, const VSOutput *i_pVSOutput2 );
-        void RasterizeTriangle(VSOutput *pVSOutput0, VSOutput *pVSOutput1, VSOutput *pVSOutput2 , IShader* shader);
+        void RasterizeTriangle(VSOutput *pVSOutput0, VSOutput *pVSOutput1, VSOutput *pVSOutput2 , IShader* shader, bool wireframeDebug = false);
         
     private:
         RenderContext* mRenderContext;
