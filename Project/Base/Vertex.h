@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "Color.h"
 #include "Math/Vector3.h"
 #include "Math/Mathf.h"
@@ -12,6 +11,7 @@ struct VSOutput
 	Color color;
 
 	Vector3 varying[4];
+
 };
 
 

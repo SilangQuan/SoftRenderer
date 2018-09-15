@@ -1,6 +1,7 @@
 #pragma once
 #include <cmath>
 #include <cfloat>
+#include <xmmintrin.h>
 
 class Mathf
 {

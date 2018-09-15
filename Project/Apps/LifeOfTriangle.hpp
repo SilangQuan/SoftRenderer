@@ -14,6 +14,7 @@ class LifeOfTriangle: public AppBase
     public:
         void Init()
         {   
+            mInput = new Input();
             InitDesc initDesc;
             initDesc.height = 360;
             initDesc.width = 640;
@@ -62,7 +63,7 @@ class LifeOfTriangle: public AppBase
                 mats[i]->Shader->TextureUnit0 = mats[i]->DiffuseTex;
             }
 
-            mCamera = new Camera(Vector3(0,0,3), Vector3(0,0,0), Vector3::up);
+            mCamera = new Camera(Vector3(0,0,2), Vector3(0,0,0), Vector3::up);
             mCamera->SetDepthRange(0,1);
             mCamera->SetPespective(60, 16.0/9, 0.3, 1000);
             mCamera->SetViewPort(0,0,initDesc.width, initDesc.height, true);
@@ -101,10 +102,16 @@ class LifeOfTriangle: public AppBase
 
         bool Run()
         {
+            mInput->Update();
+             if(mInput->GetKeyDown(KeyCode::KEY_ESCAPE))
+            {
+                return false;
+            }
+
             Matrix4x4 modelMatrix = Matrix4x4::identity;
 
             handleEvents();
-            //sdl->Clean(&renderContext, &(Color::white));
+
             mRenderSystem->Clear(mClearColor);
 
             std::map<Mesh*, Material*>::iterator meshIter = mModel->GetMeshMatMap().begin();
@@ -112,6 +119,7 @@ class LifeOfTriangle: public AppBase
             mRenderSystem->RenderMesh(meshIter->first,&modelMatrix, meshIter->second);
             
             mRenderSystem->SwapBuffer();
+
             return true;
         }
 
@@ -123,6 +131,7 @@ class LifeOfTriangle: public AppBase
         }
 
     private:
+        Input* mInput;
         Camera* mCamera;
         Model* mModel;
         RenderSystem* mRenderSystem;

@@ -15,6 +15,7 @@ file(GLOB ALL_SRC
     "Math/*.cpp"
     "Shape/*.cpp"
     "RenderSystem/*.cpp"
+    "Profiler/*.cpp"
 )
 
 add_executable(SoftRenderer ${ALL_SRC})

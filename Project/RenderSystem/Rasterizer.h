@@ -38,13 +38,16 @@ public:
 	void  RasterizeTriangleLarabee(Vertex* vertexs, IShader* shader, bool depthMode = false);
 	void  RasterizeTriangleLarabee2(Vertex* vertexs, IShader* shader, bool depthMode = false);
 	void RasterizeTriangleLarabee3(VSOutput *pVSOutput0, VSOutput *pVSOutput1, VSOutput *pVSOutput2 , IShader* shader);
+	void RasterizeTriangleLarabeeSSE(VSOutput *pVSOutput0, VSOutput *pVSOutput1, VSOutput *pVSOutput2 , IShader* shader);
 	void RasterizeTriangleLarabeeDepthMode(VSOutput *pVSOutput0, VSOutput *pVSOutput1, VSOutput *pVSOutput2, IShader* shader);
 	
 
 	Vector3 CalcBarycentric(Vector2& A, Vector2& B, Vector2& C, Vector2i& P);
 	Vector3 CalcBarycentric(Vector3& A, Vector3& B, Vector3& C, Vector2i& P);
 
+	Vector3 BarycentricFastSSE(float d00, float d01, float d11, Vector2&  v0, Vector2&  v1, Vector2&  v2, bool& isInLine);
 private:
 	RenderContext *mRenderContext;
 	RenderState renderState;
+	__m128 mBarycentricCoord;
 };

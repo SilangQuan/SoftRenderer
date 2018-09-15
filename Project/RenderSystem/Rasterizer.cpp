@@ -155,8 +155,68 @@ Vector3 BarycentricFast(Vector3&  a, Vector3&  b, Vector3&  c, Vector3&  p, bool
 	return Vector3(u,v,w);
 }
 
+Vector3 Rasterizer::BarycentricFastSSE(float d00, float d01, float d11, Vector2&  v0, Vector2&  v1, Vector2&  v2, bool& isInLine)
+{
+	PROFILE_BEGIN(BarycentricFastSSE);
+	
+
+    float d20 = v2.x * v0.x + v2.y * v0.y;
+    float d21 = v2.x * v1.x + v2.y * v1.y;
+
+    float denom = d00 * d11 - d01 * d01;
+	//三角形变成了一条线
+	if(Mathf::Abs(denom) <0.000001)
+	{
+		isInLine = true;
+		return -1 * Vector3::one;
+	}else
+	{
+		isInLine = false;
+	}
+    float v = (d11 * d20 - d01 * d21) / denom;
+    float w = (d00 * d21 - d01 * d20) / denom;
+    float u = 1.0f - v - w;
+	PROFILE_END(BarycentricFastSSE);
+
+ 	return Vector3(u,v,w);
+}
+
+Vector3 BarycentricFast3(Vector2&  v0, Vector2&  v1, Vector2&  v2, bool& isInLine)
+{
+	PROFILE_BEGIN(BarycentricFastNew);
+	
+   // Vector4 v0 = b - a, v1 = c - a, v2 = p - a;
+
+	float d00 = v0.x * v0.x + v0.y * v0.y;
+    float d01 = v0.x * v1.x + v0.y * v1.y;
+    float d11 = v1.x * v1.x + v1.y * v1.y;
+    float d20 = v2.x * v0.x + v2.y * v0.y;
+    float d21 = v2.x * v1.x + v2.y * v1.y;
+
+    float denom = d00 * d11 - d01 * d01;
+	//三角形变成了一条线
+	if(Mathf::Abs(denom) <0.000001)
+	{
+		isInLine = true;
+		return -1 * Vector3::one;
+	}else
+	{
+		isInLine = false;
+	}
+
+
+    float v = (d11 * d20 - d01 * d21) / denom;
+    float w = (d00 * d21 - d01 * d20) / denom;
+    float u = 1.0f - v - w;
+	PROFILE_END(BarycentricFastNew);
+
+	return Vector3(u,v,w);
+}
+
 Vector3 BarycentricFast2(Vector4&  a, Vector4&  b, Vector4&  c, Vector4&  p, bool& isInLine)
 {
+	PROFILE_BEGIN(BarycentricFast);
+	
     Vector4 v0 = b - a, v1 = c - a, v2 = p - a;
 
 	float d00 = v0.x * v0.x + v0.y * v0.y;
@@ -180,6 +240,7 @@ Vector3 BarycentricFast2(Vector4&  a, Vector4&  b, Vector4&  c, Vector4&  p, boo
     float v = (d11 * d20 - d01 * d21) / denom;
     float w = (d00 * d21 - d01 * d20) / denom;
     float u = 1.0f - v - w;
+	PROFILE_END(BarycentricFast);
 
 	return Vector3(u,v,w);
 }
@@ -420,14 +481,15 @@ void Rasterizer::RasterizeTriangleLarabeeDepthMode(VSOutput *pVSOutput0, VSOutpu
 	Vector2i P;
 	Color col;
 
+
 	//float area = edgeFunction(vertexs[0].position, vertexs[1].position, vertexs[2].position); 
 	bool isInline = false;
     for (P.x=bboxmin.x; P.x<=bboxmax.x; P.x++) {
         for (P.y=bboxmin.y; P.y<=bboxmax.y; P.y++) 
 		{
 			Vector4 currentPoint(P.x, P.y, 0, 0);
-
-			Vector3 barycentricCoord = BarycentricFast2(pVSOutput0->position,pVSOutput1->position, pVSOutput2->position, currentPoint, isInline);
+			
+			Vector3 barycentricCoord = BarycentricFast2(pVSOutput0->position, pVSOutput1->position, pVSOutput2->position, currentPoint, isInline);
 			float fInvW =1.0f / (barycentricCoord.x * pVSOutput0->position.w+ barycentricCoord.y*pVSOutput1->position.w +barycentricCoord.z * pVSOutput2->position.w);
 			float depth = barycentricCoord.x * pVSOutput0->position.z + barycentricCoord.y*pVSOutput1->position.z + barycentricCoord.z * pVSOutput2->position.z;
 			
@@ -486,6 +548,9 @@ void Rasterizer::RasterizeTriangleLarabeeDepthMode(VSOutput *pVSOutput0, VSOutpu
 
 void Rasterizer::RasterizeTriangleLarabee3(VSOutput *pVSOutput0, VSOutput *pVSOutput1, VSOutput *pVSOutput2 , IShader* shader)
 {
+
+	PROFILE_BEGIN(RasterizeTriangle_BoundingBox);
+	
 	Vector2 bboxmin( Mathf::Infinity,  Mathf::Infinity);
     Vector2 bboxmax(Mathf::NegativeInfinity, Mathf::NegativeInfinity);
     Vector2 clamp(mRenderContext->width-1, mRenderContext->height-1);
@@ -511,14 +576,20 @@ void Rasterizer::RasterizeTriangleLarabee3(VSOutput *pVSOutput0, VSOutput *pVSOu
 
 	Vector2i P;
 	Color col;
+	PROFILE_END(RasterizeTriangle_BoundingBox);
+
+	
+	Vector2 bMinusa = Vector2(pVSOutput1->position.x - pVSOutput0->position.x, pVSOutput1->position.y - pVSOutput0->position.y);
+	Vector2 cMinusa = Vector2(pVSOutput2->position.x - pVSOutput0->position.x, pVSOutput2->position.y - pVSOutput0->position.y);
 
 	bool isInline = false;
     for (P.x=bboxmin.x; P.x<=bboxmax.x; P.x++) {
         for (P.y=bboxmin.y; P.y<=bboxmax.y; P.y++) 
 		{
-			Vector4 currentPoint(P.x, P.y, 0, 0);
-
-			Vector3 barycentricCoord = BarycentricFast2(pVSOutput0->position,pVSOutput1->position, pVSOutput2->position, currentPoint, isInline);
+	PROFILE_BEGIN(RasterizeTriangle_BarycentricCalc);
+			
+			Vector2 pMinusa = Vector2(P.x - pVSOutput0->position.x, P.y - pVSOutput0->position.y);
+			Vector3 barycentricCoord = BarycentricFast3(bMinusa,cMinusa, pMinusa, isInline);
 			float fInvW =1.0f / (barycentricCoord.x * pVSOutput0->position.w+ barycentricCoord.y*pVSOutput1->position.w +barycentricCoord.z * pVSOutput2->position.w);
 			float depth = barycentricCoord.x * pVSOutput0->position.z + barycentricCoord.y*pVSOutput1->position.z + barycentricCoord.z * pVSOutput2->position.z;
 			
@@ -530,6 +601,9 @@ void Rasterizer::RasterizeTriangleLarabee3(VSOutput *pVSOutput0, VSOutput *pVSOu
 
 			if(mRenderContext->depthBuffer[P.x + P.y * mRenderContext->width] < depth)
 				continue;
+	PROFILE_END(RasterizeTriangle_BarycentricCalc);
+
+	PROFILE_BEGIN(RasterizeTriangle_vertexattrs);
 
 			//Do Vertex attribute interpolation
 			Vector2 interpUV(0,0);
@@ -537,7 +611,6 @@ void Rasterizer::RasterizeTriangleLarabee3(VSOutput *pVSOutput0, VSOutput *pVSOu
 			Color interpCol = fInvW * (barycentricCoord.x *pVSOutput0->color + barycentricCoord.y * pVSOutput1->color+ barycentricCoord.z * pVSOutput2->color);
 			shader->FragmentInColor =  &interpCol;
 			shader->FragmentInUV =  &interpUV;
-			
 			if(shader->VaryingsCountBitMask & FirstBitMask)
 			{
 				shader->FragmentVaringOuts[0] = barycentricCoord.x * pVSOutput0->varying[0] 
@@ -554,14 +627,187 @@ void Rasterizer::RasterizeTriangleLarabee3(VSOutput *pVSOutput0, VSOutput *pVSOu
 				+ barycentricCoord.z * pVSOutput2->varying[1];
 				shader->FragmentVaringOuts[1] *= fInvW;
 			}
-
+	PROFILE_END(RasterizeTriangle_vertexattrs);
+	PROFILE_BEGIN(RasterizeTriangle_fragment);
 			bool discard = shader->fragment(barycentricCoord, col);
+	PROFILE_END(RasterizeTriangle_fragment);
 
+			
+	PROFILE_BEGIN(RasterizeTriangle_draw);
 			if (!discard) 
 			{
 				mRenderContext->depthBuffer[P.x + P.y * mRenderContext->width] = depth;
 				DrawPixel(P.x,  mRenderContext->height - P.y - 1, col);
 			}
+	PROFILE_END(RasterizeTriangle_draw);
+			
+        }
+    }
+}
+
+
+void Rasterizer::RasterizeTriangleLarabeeSSE(VSOutput *pVSOutput0, VSOutput *pVSOutput1, VSOutput *pVSOutput2 , IShader* shader)
+{
+
+	PROFILE_BEGIN(RasterizeTriangle_BoundingBox);
+	
+	Vector2 bboxmin( Mathf::Infinity,  Mathf::Infinity);
+    Vector2 bboxmax(Mathf::NegativeInfinity, Mathf::NegativeInfinity);
+    Vector2 clamp(mRenderContext->width-1, mRenderContext->height-1);
+	
+	//Screen space clip by bounding box
+	bboxmin.x = Mathf::Max(0.f, Mathf::Min(bboxmin.x , pVSOutput0->position.x));
+	bboxmin.y = Mathf::Max(0.f, Mathf::Min(bboxmin.y , pVSOutput0->position.y));
+
+	bboxmax.x = Mathf::Min(clamp.x, Mathf::Max(bboxmax.x, pVSOutput0->position.x));
+	bboxmax.y = Mathf::Min(clamp.y, Mathf::Max(bboxmax.y, pVSOutput0->position.y));
+
+	bboxmin.x = Mathf::Max(0.f, Mathf::Min(bboxmin.x , pVSOutput1->position.x));
+	bboxmin.y = Mathf::Max(0.f, Mathf::Min(bboxmin.y , pVSOutput1->position.y));
+
+	bboxmax.x = Mathf::Min(clamp.x, Mathf::Max(bboxmax.x, pVSOutput1->position.x));
+	bboxmax.y = Mathf::Min(clamp.y, Mathf::Max(bboxmax.y, pVSOutput1->position.y));
+
+	bboxmin.x = Mathf::Max(0.f, Mathf::Min(bboxmin.x , pVSOutput2->position.x));
+	bboxmin.y = Mathf::Max(0.f, Mathf::Min(bboxmin.y , pVSOutput2->position.y));
+
+	bboxmax.x = Mathf::Min(clamp.x, Mathf::Max(bboxmax.x, pVSOutput2->position.x));
+	bboxmax.y = Mathf::Min(clamp.y, Mathf::Max(bboxmax.y, pVSOutput2->position.y));
+
+	Vector2i P;
+	Color col;
+	PROFILE_END(RasterizeTriangle_BoundingBox);
+
+	
+	Vector2 bMinusa = Vector2(pVSOutput1->position.x - pVSOutput0->position.x, pVSOutput1->position.y - pVSOutput0->position.y);
+	Vector2 cMinusa = Vector2(pVSOutput2->position.x - pVSOutput0->position.x, pVSOutput2->position.y - pVSOutput0->position.y);
+
+	__m128 wPack = _mm_set_ps(pVSOutput0->position.w,pVSOutput1->position.w,pVSOutput2->position.w,0);
+	__m128 zPack = _mm_set_ps(pVSOutput0->position.z,pVSOutput1->position.z,pVSOutput2->position.z,0);
+	__m128 uPack = _mm_set_ps(pVSOutput0->uv.x,pVSOutput1->uv.x,pVSOutput2->uv.x,0);
+	__m128 vPack = _mm_set_ps(pVSOutput0->uv.y,pVSOutput1->uv.y,pVSOutput2->uv.y,0);
+	__m128 colorRPack = _mm_set_ps(pVSOutput0->color.r,pVSOutput1->color.r,pVSOutput2->color.r/*GetUintR()*/,0);
+	__m128 colorGPack = _mm_set_ps(pVSOutput0->color.g,pVSOutput1->color.g,pVSOutput2->color.g/*GetUintG()*/,0);
+	__m128 colorBPack = _mm_set_ps(pVSOutput0->color.b,pVSOutput1->color.b,pVSOutput2->color.b/*GetUintB()*/,0);
+	__m128 colorAPack = _mm_set_ps(pVSOutput0->color.a,pVSOutput1->color.a,pVSOutput2->color.a/*GetUintA()*/,0);
+
+	float interpWArray[4] = {0};
+	float interpZArray[4] = {0};
+	float barycentricArray[4] = {0};
+
+	float tmpArrayForSEE[4] = {0};
+	
+	bool isInline = false;
+
+	Vector2 interpUV;
+	Color interpCol;
+
+	float d00 = bMinusa.x * bMinusa.x + bMinusa.y * bMinusa.y;
+    float d01 = bMinusa.x * cMinusa.x + bMinusa.y * cMinusa.y;
+    float d11 = cMinusa.x * cMinusa.x + cMinusa.y * cMinusa.y;
+
+    for (P.x=bboxmin.x; P.x<=bboxmax.x; P.x++) {
+        for (P.y=bboxmin.y; P.y<=bboxmax.y; P.y++) 
+		{
+	PROFILE_BEGIN(RasterizeTriangle_BarycentricCalc);
+			
+			Vector2 pMinusa = Vector2(P.x - pVSOutput0->position.x, P.y - pVSOutput0->position.y);
+			
+
+			Vector3 barycentricCoord = BarycentricFastSSE(d00, d01, d11, bMinusa, cMinusa, pMinusa, isInline);
+			
+			//Vector3 barycentricCoord = BarycentricFast3(bMinusa,cMinusa, pMinusa, isInline);
+			mBarycentricCoord = _mm_set_ps(barycentricCoord.x,barycentricCoord.y,barycentricCoord.z,0);
+			__m128 InterpW = _mm_mul_ps(mBarycentricCoord, wPack);
+			__m128 InterpZ = _mm_mul_ps(mBarycentricCoord, zPack);
+			_mm_storer_ps(interpWArray, InterpW); 
+			_mm_storer_ps(interpZArray, InterpZ); 
+
+			//_mm_store_ps(barycentricArray, mBarycentricCoord); 
+
+
+			//float fInvW =1.0f / (barycentricCoord.x * pVSOutput0->position.w+ barycentricCoord.y*pVSOutput1->position.w +barycentricCoord.z * pVSOutput2->position.w);
+			//float depth = barycentricCoord.x * pVSOutput0->position.z + barycentricCoord.y*pVSOutput1->position.z + barycentricCoord.z * pVSOutput2->position.z;
+
+			float fInvW =1.0f /(interpWArray[0] + interpWArray[1] + interpWArray[2]);
+			float depth = interpZArray[0] + interpZArray[1] + interpZArray[2];
+			
+			if(isInline)
+			 	continue;
+			
+			float threshold = -0.000001;
+            if (barycentricCoord.x<threshold || barycentricCoord.y<threshold || barycentricCoord.z<threshold ) continue;
+
+			if(mRenderContext->depthBuffer[P.x + P.y * mRenderContext->width] < depth)
+				continue;
+	PROFILE_END(RasterizeTriangle_BarycentricCalc);
+
+	PROFILE_BEGIN(RasterizeTriangle_vertexattrs);
+			__m128 fInvMM = _mm_set_ps(fInvW,fInvW,fInvW,0);
+
+			//Do Vertex attribute interpolation
+			//Vector2 interpUV = fInvW * (barycentricCoord.x * pVSOutput0->uv + barycentricCoord.y * pVSOutput1->uv + barycentricCoord.z * pVSOutput2->uv);
+			//Color interpCol = fInvW * (barycentricCoord.x *pVSOutput0->color + barycentricCoord.y * pVSOutput1->color+ barycentricCoord.z * pVSOutput2->color);
+		
+
+			__m128 interpUMM = _mm_mul_ps(mBarycentricCoord, uPack);
+			__m128 interpVMM = _mm_mul_ps(mBarycentricCoord, vPack);
+			__m128 interpRMM = _mm_mul_ps(mBarycentricCoord, colorRPack);
+			__m128 interpGMM = _mm_mul_ps(mBarycentricCoord, colorGPack);
+			__m128 interpBMM = _mm_mul_ps(mBarycentricCoord, colorBPack);
+			__m128 interpAMM = _mm_mul_ps(mBarycentricCoord, colorAPack);
+
+			_mm_storer_ps(tmpArrayForSEE, interpUMM); 
+			interpUV.x = fInvW * (tmpArrayForSEE[0] + tmpArrayForSEE[1] + tmpArrayForSEE[2]);
+			
+			_mm_storer_ps(tmpArrayForSEE, interpVMM); 
+			interpUV.y = fInvW * (tmpArrayForSEE[0] + tmpArrayForSEE[1] + tmpArrayForSEE[2]);
+
+			_mm_storer_ps(tmpArrayForSEE, interpRMM); 
+			interpCol.r = fInvW * (tmpArrayForSEE[0] + tmpArrayForSEE[1] + tmpArrayForSEE[2]+ tmpArrayForSEE[3]);
+
+			_mm_storer_ps(tmpArrayForSEE, interpGMM); 
+			interpCol.g = fInvW * (tmpArrayForSEE[0] + tmpArrayForSEE[1] + tmpArrayForSEE[2]+ tmpArrayForSEE[3]);
+
+			_mm_storer_ps(tmpArrayForSEE, interpBMM); 
+			interpCol.b = fInvW * (tmpArrayForSEE[0] + tmpArrayForSEE[1] + tmpArrayForSEE[2]+ tmpArrayForSEE[3]);
+
+			_mm_storer_ps(tmpArrayForSEE, interpAMM); 
+			interpCol.a = fInvW * (tmpArrayForSEE[0] + tmpArrayForSEE[1] + tmpArrayForSEE[2]+ tmpArrayForSEE[3]);
+			
+			shader->FragmentInColor =  &interpCol;
+			shader->FragmentInUV =  &interpUV;
+		
+			if(shader->VaryingsCountBitMask & FirstBitMask)
+			{
+				shader->FragmentVaringOuts[0] = barycentricCoord.x * pVSOutput0->varying[0] 
+				+ barycentricCoord.y * pVSOutput1->varying[0] 
+				+ barycentricCoord.z * pVSOutput2->varying[0];
+
+				shader->FragmentVaringOuts[0] *= fInvW;
+			}
+
+			if(shader->VaryingsCountBitMask & SecondBitMask)
+			{
+				shader->FragmentVaringOuts[1] = barycentricCoord.x * pVSOutput0->varying[1] 
+				+ barycentricCoord.y * pVSOutput1->varying[1] 
+				+ barycentricCoord.z * pVSOutput2->varying[1];
+				shader->FragmentVaringOuts[1] *= fInvW;
+			}
+	PROFILE_END(RasterizeTriangle_vertexattrs);
+	PROFILE_BEGIN(RasterizeTriangle_fragment);
+			bool discard = shader->fragment(barycentricCoord, col);
+	PROFILE_END(RasterizeTriangle_fragment);
+
+			
+	PROFILE_BEGIN(RasterizeTriangle_draw);
+			if (!discard) 
+			{
+				mRenderContext->depthBuffer[P.x + P.y * mRenderContext->width] = depth;
+				DrawPixel(P.x,  mRenderContext->height - P.y - 1, col);
+			}
+	PROFILE_END(RasterizeTriangle_draw);
+			
         }
     }
 }

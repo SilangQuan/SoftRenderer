@@ -2,6 +2,10 @@
 
 #include <string>
 
+#define USE_SSE 0
+
+#define SHADER_RIGISTER_COUNT 4
+
 // other stuff
 typedef unsigned char uint8;
 typedef unsigned int uint32;

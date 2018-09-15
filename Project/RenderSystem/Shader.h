@@ -7,6 +7,7 @@
 #include <math.h>
 #include "Math/Mathf.h"
 #include "Base/Vertex.h"
+#include "Profiler/SimpleProfiler.h"
 
 static uint FirstBitMask = 0x1;
 static uint SecondBitMask = 0x10;
@@ -111,20 +112,25 @@ class VertexColorShader : public IShader
 
 class VertexColorTextureShader : public IShader 
 {
-   virtual Vector4 vertex(int bufferIndex,int triangleIndex, VSOutput* vsOutput) 
+    virtual Vector4 vertex(int bufferIndex,int triangleIndex, VSOutput* vsOutput) 
     {
+        PROFILE_BEGIN(VertexColorTextureShader_vert);
         Vector4 tmp;
         tmp.x = RenderMesh->Vertices[bufferIndex].x;
         tmp.y = RenderMesh->Vertices[bufferIndex].y;
         tmp.z = RenderMesh->Vertices[bufferIndex].z;
         tmp.w = 1;
+        PROFILE_END(VertexColorTextureShader_vert);
         return *PVMMatrix * tmp; // tOransform it to screen coordinates
     }
 
     virtual bool fragment(const Vector3& barycentric,Color &color) 
     {
+        PROFILE_BEGIN(VertexColorTextureShader_fragment);
+        
         color = (Color)(TextureUnit0->Sample(FragmentInUV->x,FragmentInUV->y));
         color *= *FragmentInColor;
+        PROFILE_END(VertexColorTextureShader_fragment);
         return false;      
     }                        
 };

@@ -7,6 +7,7 @@
 #include "Base/Mesh.h"
 #include "Shape/Line2d.h"
 #include <assert.h>
+#include "Profiler/SimpleProfiler.h"
 
 RenderSystem::RenderSystem(InitDesc &initDesc)
 {
@@ -227,6 +228,9 @@ void RenderSystem::Rasterization(TrianglePrimitive &triangle, Material *mat)
 
 void RenderSystem::RenderMesh(Mesh *mesh, Matrix4x4 *modelMatrix, Material *mat)
 {
+
+	PROFILE_BEGIN(ShaderUniformSetting);
+
 	Matrix4x4 MVP = mCurCamera->projectionMaxtrix * mCurCamera->viewMatrix * (*modelMatrix);
 	mat->Shader->ViewMatrix = &(mCurCamera->viewMatrix);
 	mat->Shader->ProjectionMatrix = &(mCurCamera->projectionMaxtrix);
@@ -244,6 +248,9 @@ void RenderSystem::RenderMesh(Mesh *mesh, Matrix4x4 *modelMatrix, Material *mat)
 	mat->Shader->WorldSpaceViewPos = &(mCurCamera->transform.position);
 
 	mShader = mat->Shader;
+
+	PROFILE_END(ShaderUniformSetting);
+	
 	VSOutput vsOutputs[3];
 
 	//Vertex clipedTriangleVerts[9];
@@ -305,6 +312,8 @@ void RenderSystem::RenderMesh(Mesh *mesh, Matrix4x4 *modelMatrix, Material *mat)
 			ViewportTransformVertex(ppSrc[iVertex]);
 		}
 
+		
+
 		// We do not have to check for culling for each sub-polygon of the triangle, as they
 		// are all in the same plane. If the first polygon is culled then all other polygons
 		// would be culled, too.
@@ -345,7 +354,12 @@ void RenderSystem::RasterizeTriangle(VSOutput *pVSOutput0, VSOutput *pVSOutput1,
 {
 	if (mRenderStates[RenderState_Fillmode] == ShadedMode)
 	{
-		mRasterizer->RasterizeTriangleLarabee3(pVSOutput0, pVSOutput1, pVSOutput2, shader);
+
+		#if USE_SSE
+			mRasterizer->RasterizeTriangleLarabeeSSE(pVSOutput0, pVSOutput1, pVSOutput2, shader);
+		#else
+			mRasterizer->RasterizeTriangleLarabee3(pVSOutput0, pVSOutput1, pVSOutput2, shader);
+		#endif
 
 		//Debug code
 		/*
