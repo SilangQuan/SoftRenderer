@@ -1,5 +1,5 @@
 #include "Time.h"
-#include "SDL2/SDL.h"
+#include "SDL2/include/SDL.h"
 #include "Log/Log.h"
 float Time::deltaTime = 0;
 float Time::time = 0;

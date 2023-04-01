@@ -35,7 +35,13 @@ public:
 	} *stream;
 
 	Debug() : stream(new Stream()) {}
-	inline Debug(std::string *s) : stream(new Stream(s)) {}
+	inline Debug(std::string* s) : stream(new Stream(s)) {}
+	inline Debug(std::string *s, LogType logType, MessageLogContext context) : stream(new Stream(s))
+	{
+		stream->logType = logType;
+		MessageLogContext& ctxt = stream->context;
+		ctxt.copy(context);
+	}
 	~Debug();
 	inline Debug &operator<<(bool t) { stream->ss<<(t ? "true" : "false"); return maybeSpace(); }
 	inline Debug &operator<<(float t) { stream->ss << t; return maybeSpace(); }
@@ -44,7 +50,8 @@ public:
 	inline Debug &operator<<(signed short t) { stream->ss << t; return maybeSpace(); }
 	inline Debug &operator<<(unsigned short t) { stream->ss << t; return maybeSpace(); }
 	inline Debug &operator<<(std::string s) { stream->ss << s; return maybeSpace(); }
-	inline Debug &operator<<(const char* c) { stream->ss << c; return maybeSpace(); }
+	inline Debug &operator<<(const char* c) { stream->ss << c; return maybeSpace(); 
+	}
 	inline Debug &operator<<(Vector2 vec) { stream->ss << "(" << vec.x <<","<< vec.y<<")"; return maybeSpace(); }
 	inline Debug &operator<<(Vector3 vec) { stream->ss << "(" << vec.x << "," << vec.y <<"," << vec.z << ")"; return maybeSpace(); }
 	inline Debug &operator<<(Quaternion q) { stream->ss << "(" << q.x << "," << q.y << "," << q.z << "," << q.w << ")"; return maybeSpace(); }

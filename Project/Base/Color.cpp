@@ -55,7 +55,7 @@ Color::Color(const Color& color)
 } 
 
 
-void SetData(uint r, uint g, uint b, uint a, bool needRefresh);
+//void SetData(uint32 r, uint32 g, uint32 b, uint32 a, bool needRefresh);
 
 /*
 uint8_t Color::GetUintR() { return (uint8_t)(r * 255); }

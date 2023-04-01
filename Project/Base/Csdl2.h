@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
-//#include "3rdParty/SDL2/include/SDL.h"
-#include <SDL2/SDL.h> 
+#include "3rdParty/SDL2/include/SDL.h"
+//#include <SDL2/SDL.h> 
 class RenderContext;
 class Rect;
 class Circle;

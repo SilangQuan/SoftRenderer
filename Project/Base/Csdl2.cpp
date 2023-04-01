@@ -240,7 +240,7 @@ void CSDL2::DrawLine(Line2d* line)
 void CSDL2::Clean(RenderContext* renderContext, Color* color)
 {
 
-	uint col = (color->GetUintA() << 24) | (color->GetUintR() << 16) | (color->GetUintG() << 8) | (color->GetUintB() << 0);
+	uint32 col = (color->GetUintA() << 24) | (color->GetUintR() << 16) | (color->GetUintG() << 8) | (color->GetUintB() << 0);
 	memset(renderContext->backBuffer, col, renderContext->width* renderContext->height * renderContext->bpp);
 	memset(renderContext->depthBuffer, -1, renderContext->width* renderContext->height * renderContext->bpp);
 	//memset(g_context.depthBuffer, 3.402823E+38, g_context.width* g_context.height * sizeof(float));

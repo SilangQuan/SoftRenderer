@@ -1,6 +1,5 @@
 #pragma once
-
-#include "SDL2/SDL.h"
+#include "SDL2/include/SDL.h"
 
 #define KEYBOARD_SIZE 282
 

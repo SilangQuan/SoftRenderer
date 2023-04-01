@@ -12,17 +12,17 @@
 #include "Shape/Line2d.h"
 #include "Math/Random.h"
 #include "Profiler/SimpleProfiler.h"
-//#include "Apps/Sponza.hpp"
+#include "Apps/Sponza.hpp"
 //#include "Apps/LifeOfTriangle.hpp"
-#include "Apps/ClipInHomogeneous.hpp"
+//#include "Apps/ClipInHomogeneous.hpp"
 
 
 
 int main(int argc, char* args[])
 {
-	//AppBase* app = new Sponza();
+	AppBase* app = new Sponza();
 	//AppBase* app = new LifeOfTriangle();
-	AppBase* app = new ClipInHomogeneous();
+	//AppBase* app = new ClipInHomogeneous();
 	
 	app->Init();
 

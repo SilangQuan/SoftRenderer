@@ -55,6 +55,10 @@ void Model::LoadModel(std::string path)
 	}
 
 	if (!ret) {
+		//Debug d = MessageLogger(__FILE__, __FUNCTION__, __LINE__).debug();
+			//d << "Fuck";
+
+
 		qDebug() << "LoadModel" << path << " error";
 		exit(1);
 	}else

@@ -4,37 +4,24 @@
 Debug MessageLogger::debug() const
 {
 	std::string debug = "debug";
-	Debug dbg = Debug(&debug);
-	MessageLogContext &ctxt = dbg.stream->context;
-	ctxt.copy(context);
-	dbg.stream->logType = Info;
-	return dbg;
+	return Debug(&debug, Info, context);
 }
 
 Debug MessageLogger::info() const
 {
-	Debug dbg = Debug();
-	MessageLogContext &ctxt = dbg.stream->context;
-	ctxt.copy(context);
-	dbg.stream->logType = Info;
-	return dbg;
+	std::string debug = "info";
+	return Debug(&debug, Info, context);
 }
 
 Debug MessageLogger::warning() const
 {
-	Debug dbg = Debug();
-	MessageLogContext &ctxt = dbg.stream->context;
-	ctxt.copy(context);
-	dbg.stream->logType = Warning;
-	return dbg;
+	std::string debug = "warning";
+	return Debug(&debug, Warning, context);
 }
 
 Debug MessageLogger::critical() const
 {
-	Debug dbg = Debug();
-	MessageLogContext &ctxt = dbg.stream->context;
-	ctxt.copy(context);
-	dbg.stream->logType = Error;
-	return dbg;
+	std::string debug = "error";
+	return Debug(&debug, Warning, context);
 }
 

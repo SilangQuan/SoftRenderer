@@ -9,10 +9,10 @@
 #include "Base/Vertex.h"
 #include "Profiler/SimpleProfiler.h"
 
-static uint FirstBitMask = 0x1;
-static uint SecondBitMask = 0x10;
-static uint ThirdBitMask = 0x100;
-static uint ForthBitMask = 0x1000;
+static uint32 FirstBitMask = 0x1;
+static uint32 SecondBitMask = 0x10;
+static uint32 ThirdBitMask = 0x100;
+static uint32 ForthBitMask = 0x1000;
 static const int UnitsCout = 4;
 
 enum Culling{

@@ -23,9 +23,17 @@ Texture::Texture(string path)
     }
 }
 
+long ftol(float f) {
+    union {
+        float f;
+        long l;
+    } u;
 
+    u.f = f;
+    return u.l;
+}
 
-
+/*
 inline int32 ftol( float32 f )
 {
 #ifdef __amigaos4__
@@ -48,6 +56,7 @@ inline int32 ftol( float32 f )
 	return tmp;
 #endif
 }
+*/
 
 uint32 Texture::SampleLinear(float inU, float inV) const
 {
